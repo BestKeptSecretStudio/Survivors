@@ -1,7 +1,9 @@
+import styled from "styled-components";
+
+const PlayfieldComponent = styled.main`
+	display: flex;
+`;
+
 export default function Playfield() {
-	return (
-		<main className="flex min-h-screen flex-col items-center justify-between p-24">
-			Main
-		</main>
-	);
+	return <PlayfieldComponent>Main</PlayfieldComponent>;
 }
