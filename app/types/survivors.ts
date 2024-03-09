@@ -1,7 +1,9 @@
 import { Item } from "./items";
 import { Percentile } from "./utilities";
 
-type Genders = "male" | "female" | "otherwise";
+// * temporarily keep other options under an overly-inclusive "otherwise"
+// TODO: research appropriate terms and classifications
+type Gender = "male" | "female" | "otherwise";
 
 type Survivor = {
 	name: {
@@ -11,14 +13,14 @@ type Survivor = {
 	};
 	age: number;
 	gender:
-		| Genders
+		| Gender
 		| {
-				type: Genders;
+				type: Gender;
 				isTransgender?: boolean;
 				hasTransitioned?: boolean;
 		  };
 	sexuality: {
-		preferences: { [Key in Genders]?: Percentile }[];
+		preferences: { [Key in Gender]?: Percentile }[];
 		intensity: Percentile;
 	};
 	stats: {};
