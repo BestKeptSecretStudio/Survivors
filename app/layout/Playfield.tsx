@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
-const PlayfieldComponent = styled.main`
+const StyledPlayfield = styled.main`
 	display: flex;
 `;
 
 export default function Playfield() {
-	return <PlayfieldComponent>Main</PlayfieldComponent>;
+	return <StyledPlayfield>Main</StyledPlayfield>;
 }
