@@ -1,31 +1,34 @@
 import { Item } from "./items";
-import { Percentile } from "./utilities";
+import { Trait } from "./traits";
+import { Range } from "./utilities";
 
-// * temporarily keep other options under an overly-inclusive "otherwise"
-// TODO: research appropriate terms and classifications
-type Gender = "male" | "female" | "otherwise";
+type Gender = "male" | "female";
+type Attribute =
+	| "strength"
+	| "agility"
+	| "endurance"
+	| "intelligence"
+	| "perception"
+	| "instinct"
+	| "charisma";
+type Equipment = "weapon" | "upper" | "lower" | "footwear" | "gloves" | "belt";
 
 type Survivor = {
 	name: {
 		first: string;
-		middle?: string;
 		last: string;
 	};
-	age: number;
-	gender:
-		| Gender
-		| {
-				type: Gender;
-				isTransgender?: boolean;
-				hasTransitioned?: boolean;
-		  };
-	sexuality: {
-		preferences: { [Key in Gender]?: Percentile }[];
-		intensity: Percentile;
+	age: Range<16, 84>;
+	gender: Gender;
+	stats: {
+		// * 1 to 20 inclusive
+		[Key in Attribute]: Range<1, 20>;
 	};
-	stats: {};
-	personality: {};
-	equipment: Item[];
+	skills: {
+		// TODO
+	};
+	traits: Trait[];
+	equipment: { [Key in Equipment]: Item | null } & { carried: Item[] };
 };
 
 export const Survivors: Survivor[] = [
@@ -36,9 +39,25 @@ export const Survivors: Survivor[] = [
 		},
 		age: 38,
 		gender: "male",
-		sexuality: { preferences: [{ female: 100 }], intensity: 38 },
-		stats: {},
-		personality: {},
-		equipment: [],
+		stats: {
+			strength: 8,
+			agility: 8,
+			endurance: 8,
+			intelligence: 8,
+			perception: 8,
+			instinct: 8,
+			charisma: 8,
+		},
+		skills: {},
+		traits: [],
+		equipment: {
+			weapon: null,
+			upper: null,
+			lower: null,
+			footwear: null,
+			gloves: null,
+			belt: null,
+			carried: [],
+		},
 	},
 ];

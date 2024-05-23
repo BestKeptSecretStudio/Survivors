@@ -1,5 +1,5 @@
 type ID = string;
-type Weight = "very light" | "light" | "medium" | "heavy";
+type Weight = "weightless" | "light" | "medium" | "heavy";
 type Volume = "tiny" | "small" | "medium" | "large";
 
 export type Item = {
@@ -8,6 +8,4 @@ export type Item = {
 
 	weight: Weight;
 	volume: Volume;
-
-	storedIn: ID | null;
 };
