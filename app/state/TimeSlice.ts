@@ -21,7 +21,7 @@ if (!storedStartingDate && typeof localStorage !== "undefined")
 const timeSlice = createSlice({
 	name: "time",
 	initialState: {
-		current: startingDate,
+		current: dayjs(),
 	},
 	reducers: {
 		increment: (state, action) => {
