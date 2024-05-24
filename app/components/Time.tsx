@@ -3,7 +3,9 @@ import { useAppSelector } from "../hooks";
 
 const TimeWrapper = styled.div`
 	display: flex;
-	column-gap: 0.5rem;
+	justify-content: space-around;
+	flex-wrap: wrap;
+	column-gap: 0.75rem;
 `;
 
 export default function Time() {
@@ -11,8 +13,8 @@ export default function Time() {
 
 	return (
 		<TimeWrapper>
-			<time dateTime={time.format("HH:mm:ss")}>{time.format("h:mm A")}</time>
-			<time dateTime={time.format("YYYY-MM-DD")}>{time.format("MMM D")}</time>
+			<time>{time.format("hh:mm A")}</time>
+			<time>{time.format("MMM D")}</time>
 		</TimeWrapper>
 	);
 }
