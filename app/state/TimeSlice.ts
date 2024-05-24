@@ -9,12 +9,13 @@ const timestringOptions = {
 
 // & `null` is treated as invalid input by `dayjs()`
 // >  https://day.js.org/docs/en/parse/now
-const storedStartingDate = localStorage
-	? localStorage.getItem("startingDate") || undefined
-	: undefined;
+const storedStartingDate =
+	typeof localStorage !== "undefined"
+		? localStorage.getItem("startingDate") || undefined
+		: undefined;
 const startingDate = dayjs(storedStartingDate);
 
-if (!storedStartingDate)
+if (!storedStartingDate && typeof localStorage !== "undefined")
 	localStorage.setItem("startingDate", startingDate.format());
 
 const timeSlice = createSlice({
