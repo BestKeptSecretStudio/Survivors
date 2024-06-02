@@ -1,4 +1,7 @@
 import styled from "@emotion/styled";
+import { useAppDispatch } from "../hooks";
+import { useMemo } from "react";
+import { manageResource } from "@state/HavenSlice";
 
 export const Menu = styled.div`
 	display: flex;
@@ -41,22 +44,61 @@ const Section = styled.div`
 `;
 
 export default function ActionsBar() {
+	const dispatch = useAppDispatch();
+
+	const ACTIONS = useMemo(
+		() => [
+			{
+				heading: "Haven",
+				actions: [
+					{ label: "Overview", action: () => {} },
+					{ label: "Infirmary", action: () => {} },
+					{ label: "Crafting", action: () => {} },
+				],
+			},
+			{
+				heading: "Outside",
+				actions: [
+					{ label: "Recon", action: () => {} },
+					{ label: "Scavenge", action: () => {} },
+					{ label: "Clear Area", action: () => {} },
+				],
+			},
+			{
+				heading: "Cheats",
+				actions: [
+					{
+						label: "Add 1 Food",
+						action: () =>
+							dispatch(
+								manageResource({ action: "add", type: "food", amount: 1 })
+							),
+					},
+					{
+						label: "Remove 1 Food",
+						action: () =>
+							dispatch(
+								manageResource({ action: "subtract", type: "food", amount: 1 })
+							),
+					},
+				],
+			},
+		],
+		[dispatch]
+	);
+
 	return (
 		<Menu>
-			<Section>
-				<Heading>Haven</Heading>
-
-				<Action>Overview</Action>
-				<Action>Infirmary</Action>
-				<Action>Crafting</Action>
-			</Section>
-			<Section>
-				<Heading>Outside</Heading>
-
-				<Action>Recon</Action>
-				<Action>Scavenge</Action>
-				<Action>Clear Area</Action>
-			</Section>
+			{ACTIONS.map(({ heading, actions }) => (
+				<Section key={heading}>
+					<Heading>{heading}</Heading>
+					{actions.map(({ action, label }) => (
+						<Action key={label} onClick={action}>
+							{label}
+						</Action>
+					))}
+				</Section>
+			))}
 		</Menu>
 	);
 }
