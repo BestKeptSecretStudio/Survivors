@@ -21,16 +21,16 @@ const havenSlice = createSlice({
 			if (!newName.length) throw "Haven name cannot be empty";
 			state.name = action.payload;
 		},
-		manageResource: (state, action) => {
-			switch (action.payload.action) {
+		manageResource: (state, { payload: { action, type, amount } }) => {
+			switch (action) {
 				case "add":
-					state.resources[action.payload.type] += action.payload.amount;
+					state.resources[type] += amount;
 					break;
 				case "subtract":
-					state.resources[action.payload.type] -= action.payload.amount;
+					state.resources[type] -= Math.min(state.resources[type], amount);
 					break;
 				case "set":
-					state.resources[action.payload.type] = action.payload.amount;
+					state.resources[type] = Math.max(0, amount);
 					break;
 				default:
 					break;
