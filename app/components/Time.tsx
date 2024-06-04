@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import dayjs from "dayjs";
 import { useAppSelector } from "../hooks";
 
 const TimeWrapper = styled.div`
@@ -13,8 +14,8 @@ export default function Time() {
 
 	return (
 		<TimeWrapper>
-			<time>{time.format("hh:mm A")}</time>
-			<time>{time.format("MMM D")}</time>
+			<time>{dayjs(time).format("hh:mm A")}</time>
+			<time>{dayjs(time).format("MMM D")}</time>
 		</TimeWrapper>
 	);
 }

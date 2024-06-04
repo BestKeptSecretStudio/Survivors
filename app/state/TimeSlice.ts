@@ -21,12 +21,14 @@ if (!storedStartingDate && typeof localStorage !== "undefined")
 const timeSlice = createSlice({
 	name: "time",
 	initialState: {
-		current: dayjs(),
+		// & we must use `.format()` because the Day.js object is non-serializable
+		// & this leads to issues with managing the state
+		current: dayjs().format(),
 	},
 	reducers: {
 		increment: (state, action) => {
 			const amount = timestring(action.payload, undefined, timestringOptions);
-			state.current = dayjs(state.current).add(amount, "seconds");
+			state.current = dayjs(state.current).add(amount, "seconds").format();
 		},
 	},
 });
