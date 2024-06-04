@@ -11,7 +11,8 @@ const Wrapper = styled.main`
 	min-height: 100%;
 
 	display: grid;
-	grid-template: 1rem auto / clamp(8em, 25vw, 16em) auto;
+	// 1.25rem ensures the next in the top bar is not cut off
+	grid-template: 1.25rem auto / clamp(8em, 25vw, 16em) auto;
 	gap: 1rem;
 
 	padding: 0.5rem;
