@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { useAppDispatch } from "../hooks";
 import { useMemo } from "react";
 import { manageResource } from "@state/HavenSlice";
+import { setScreen } from "@state/UISlice";
 
 export const Menu = styled.div`
 	display: flex;
@@ -51,17 +52,21 @@ export default function ActionsBar() {
 			{
 				heading: "Haven",
 				actions: [
-					{ label: "Overview", action: () => {} },
-					{ label: "Infirmary", action: () => {} },
-					{ label: "Crafting", action: () => {} },
+					{ label: "Overview", action: () => dispatch(setScreen("home")) },
+					{
+						label: "Infirmary",
+						action: () => dispatch(setScreen("infirmary")),
+					},
+					{ label: "Crafting", action: () => dispatch(setScreen("crafting")) },
 				],
 			},
 			{
 				heading: "Outside",
 				actions: [
-					{ label: "Recon", action: () => {} },
-					{ label: "Scavenge", action: () => {} },
-					{ label: "Clear Area", action: () => {} },
+					{
+						label: "Recon",
+						action: () => dispatch(setScreen("recon")),
+					},
 				],
 			},
 			{
