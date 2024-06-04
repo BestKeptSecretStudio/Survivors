@@ -1,7 +1,7 @@
 "use client";
+import styled from "@emotion/styled";
 import { Provider } from "react-redux";
 import { store } from "./store";
-import styled from "@emotion/styled";
 
 import Time from "@components/Time";
 import ActionsBar from "@layout/ActionsMenu";
