@@ -1,43 +1,71 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { atom, computed } from "nanostores";
 
-const initialResources: { [key: string]: number } = {
-	food: 8,
-	water: 8,
-	medicine: 8,
-	materials: 8,
-	scrap: 8,
-	fuel: 8,
+const RESOURCES = [
+	"food",
+	"water",
+	"medicine",
+	"materials",
+	"scrap",
+	"fuel",
+] as const;
+export type Resource = (typeof RESOURCES)[number];
+
+// Individual atomic stores for each resource - more granular reactivity
+export const $food = atom(8);
+export const $water = atom(8);
+export const $medicine = atom(8);
+export const $materials = atom(8);
+export const $scrap = atom(8);
+export const $fuel = atom(8);
+
+// Haven name as separate atom
+export const $havenName = atom("Haven");
+
+// Computed store that combines all resources - reactive composition
+export const $resources = computed(
+	[$food, $water, $medicine, $materials, $scrap, $fuel],
+	(food, water, medicine, materials, scrap, fuel) => ({
+		food,
+		water,
+		medicine,
+		materials,
+		scrap,
+		fuel,
+	}),
+);
+
+// Computed store for total resource count - derived state
+export const $totalResources = computed($resources, (resources) =>
+	Object.values(resources).reduce((sum, amount) => sum + amount, 0),
+);
+
+// Resource store map for easier access
+const resourceStores: Record<Resource, typeof $food> = {
+	food: $food,
+	water: $water,
+	medicine: $medicine,
+	materials: $materials,
+	scrap: $scrap,
+	fuel: $fuel,
 };
 
-const havenSlice = createSlice({
-	name: "haven",
-	initialState: {
-		name: "The Haven",
-		resources: initialResources,
-	},
-	reducers: {
-		setName: (state, action) => {
-			const newName = action.payload;
-			if (!newName.length) throw "Haven name cannot be empty";
-			state.name = action.payload;
-		},
-		manageResource: (state, { payload: { action, type, amount } }) => {
-			switch (action) {
-				case "add":
-					state.resources[type] += amount;
-					break;
-				case "subtract":
-					state.resources[type] -= Math.min(state.resources[type], amount);
-					break;
-				case "set":
-					state.resources[type] = Math.max(0, amount);
-					break;
-				default:
-					break;
-			}
-		},
-	},
-});
+// Direct resource manipulation - more nanostores-like
+export const setResource = (type: Resource, amount: number) => {
+	resourceStores[type].set(Math.max(0, amount));
+};
 
-export const { setName, manageResource } = havenSlice.actions;
-export default havenSlice.reducer;
+export const addResource = (type: Resource, amount: number) => {
+	const current = resourceStores[type].get();
+	resourceStores[type].set(current + amount);
+};
+
+export const subtractResource = (type: Resource, amount: number) => {
+	const current = resourceStores[type].get();
+	resourceStores[type].set(Math.max(0, current - amount));
+};
+
+// Haven name manipulation
+export const setHavenName = (name: string) => {
+	if (!name.length) throw new Error("Haven name cannot be empty");
+	$havenName.set(name);
+};

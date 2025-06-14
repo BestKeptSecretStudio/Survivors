@@ -1,37 +1,66 @@
-import { createSlice } from "@reduxjs/toolkit";
-import dayjs from "dayjs";
-import timestring from "timestring";
+import { persistentAtom } from "@nanostores/persistent";
+import dayjs, { type Dayjs } from "dayjs";
+import { atom, computed } from "nanostores";
+import timestring, { type Options } from "timestring";
 
 // * module defaults to 365.25 days / year
-const timestringOptions = {
+const timestringOptions: Options = {
 	daysPerYear: 365,
 };
 
-// & `null` is treated as invalid input by `dayjs()`
-// >  https://day.js.org/docs/en/parse/now
-const storedStartingDate =
-	typeof localStorage !== "undefined"
-		? localStorage.getItem("startingDate") || undefined
-		: undefined;
-const startingDate = dayjs(storedStartingDate);
-
-if (!storedStartingDate && typeof localStorage !== "undefined")
-	localStorage.setItem("startingDate", startingDate.format());
-
-const timeSlice = createSlice({
-	name: "time",
-	initialState: {
-		// & we must use `.format()` because the Day.js object is non-serializable
-		// & this leads to issues with managing the state
-		current: dayjs().format(),
+export const $startingDate = persistentAtom<string>(
+	"startingDate",
+	dayjs().format(),
+	{
+		encode: (value: string) => value,
+		decode: (value: string) => value,
 	},
-	reducers: {
-		increment: (state, action) => {
-			const amount = timestring(action.payload, undefined, timestringOptions);
-			state.current = dayjs(state.current).add(amount, "seconds").format();
-		},
-	},
-});
+);
 
-export const { increment } = timeSlice.actions;
-export default timeSlice.reducer;
+export const $currentTime = atom(dayjs().format());
+
+export const $currentDayjs = computed($currentTime, (timeStr) =>
+	dayjs(timeStr),
+);
+
+export const $startingDayjs = computed($startingDate, (startingStr) =>
+	dayjs(startingStr),
+);
+
+export const $timeDifference = computed(
+	[$currentDayjs, $startingDayjs],
+	(current, starting) => current.diff(starting),
+);
+
+export const $daysSurvived = computed($timeDifference, (diff) =>
+	Math.floor(diff / (1000 * 60 * 60 * 24)),
+);
+
+export const $formattedTime = computed($currentDayjs, (dayjs) =>
+	dayjs.format("hh:mm A"),
+);
+
+export const $formattedDate = computed($currentDayjs, (dayjs) =>
+	dayjs.format("MMM D"),
+);
+
+export const setTime = (time: string | Dayjs) => {
+	const formatted = dayjs(time).format();
+	$currentTime.set(formatted);
+};
+
+export const advanceTime = (amount: string) => {
+	const seconds = timestring(amount, undefined, timestringOptions);
+	const newTime = dayjs($currentTime.get()).add(seconds, "seconds");
+	$currentTime.set(newTime.format());
+};
+
+export const resetToStartingTime = () => {
+	$currentTime.set($startingDate.get());
+};
+
+export const setNewStartingDate = (date?: string | Dayjs) => {
+	const newDate = dayjs(date).format();
+	$startingDate.set(newDate);
+	$currentTime.set(newDate);
+};

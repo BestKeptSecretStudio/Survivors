@@ -1,63 +1,51 @@
-import styled from "@emotion/styled";
-import { useAppDispatch } from "../hooks";
-import { useMemo } from "react";
-import { manageResource } from "@state/HavenSlice";
-import { setScreen } from "@state/UISlice";
+"use client";
 
-export const Menu = styled.div`
-	display: flex;
-	flex-direction: column;
-	row-gap: 0.5rem;
-`;
+import { addResource, subtractResource } from "@state/HavenSlice";
+import { setCurrentScreen } from "@state/UISlice";
+import { useMemo, type ComponentProps, type PropsWithChildren } from "react";
 
-const Action = styled.div`
-	overflow: hidden;
+export const Menu = ({ children }: { children: React.ReactNode }) => (
+	<div className="flex flex-col gap-2">{children}</div>
+);
 
-	padding: 0.5rem;
-	border: 1px solid #ddd;
-	border-radius: 0.25rem;
+const Action: React.FC<PropsWithChildren<ComponentProps<"button">>> = ({
+	children,
+	onClick,
+}) => (
+	<button
+		onClick={onClick}
+		className="overflow-hidden p-2 border border-gray-300 rounded cursor-pointer select-none text-center whitespace-nowrap text-ellipsis hover:border-gray-400 hover:bg-orange-50"
+	>
+		{children}
+	</button>
+);
 
-	text-align: center;
-	white-space: nowrap;
-	text-overflow: ellipsis;
+const Heading: React.FC<PropsWithChildren> = ({ children }) => (
+	<h1 className="mb-3 text-xl font-bold text-center">{children}</h1>
+);
 
-	cursor: pointer;
-	user-select: none;
+const Section: React.FC<PropsWithChildren> = ({ children }) => (
+	<div className="flex flex-col gap-2">{children}</div>
+);
 
-	&:hover {
-		border-color: #aaa;
-		background-color: floralwhite;
-	}
-`;
-
-const Heading = styled.h1`
-	margin-block-end: 0.75rem;
-
-	font-size: 1.5em;
-	font-weight: bold;
-	text-align: center;
-`;
-
-const Section = styled.div`
-	display: flex;
-	flex-direction: column;
-	row-gap: 0.5rem;
-`;
-
-export default function ActionsBar() {
-	const dispatch = useAppDispatch();
-
+const ActionsBar = () => {
 	const ACTIONS = useMemo(
 		() => [
 			{
 				heading: "Haven",
 				actions: [
-					{ label: "Overview", action: () => dispatch(setScreen("home")) },
+					{
+						label: "Overview",
+						action: () => setCurrentScreen("home"),
+					},
 					{
 						label: "Infirmary",
-						action: () => dispatch(setScreen("infirmary")),
+						action: () => setCurrentScreen("infirmary"),
 					},
-					{ label: "Crafting", action: () => dispatch(setScreen("crafting")) },
+					{
+						label: "Crafting",
+						action: () => setCurrentScreen("crafting"),
+					},
 				],
 			},
 			{
@@ -65,7 +53,7 @@ export default function ActionsBar() {
 				actions: [
 					{
 						label: "Recon",
-						action: () => dispatch(setScreen("recon")),
+						action: () => setCurrentScreen("recon"),
 					},
 				],
 			},
@@ -74,22 +62,16 @@ export default function ActionsBar() {
 				actions: [
 					{
 						label: "Add 1 Food",
-						action: () =>
-							dispatch(
-								manageResource({ action: "add", type: "food", amount: 1 })
-							),
+						action: () => addResource("food", 1),
 					},
 					{
 						label: "Remove 1 Food",
-						action: () =>
-							dispatch(
-								manageResource({ action: "subtract", type: "food", amount: 1 })
-							),
+						action: () => subtractResource("food", 1),
 					},
 				],
 			},
 		],
-		[dispatch]
+		[],
 	);
 
 	return (
@@ -106,4 +88,6 @@ export default function ActionsBar() {
 			))}
 		</Menu>
 	);
-}
+};
+
+export default ActionsBar;

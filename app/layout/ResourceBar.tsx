@@ -1,46 +1,111 @@
-import styled from "@emotion/styled";
-import { useAppSelector } from "../hooks";
+"use client";
 
-export const Bar = styled.div`
-	display: flex;
-	column-gap: 1.25rem;
-	flex-wrap: nowrap;
+import {
+	$food,
+	$fuel,
+	$materials,
+	$medicine,
+	$scrap,
+	$water,
+} from "@/state/HavenSlice";
+import { useStore } from "@nanostores/react";
+import type { PropsWithChildren } from "react";
 
-	overflow: hidden;
-`;
+export const Bar: React.FC<PropsWithChildren> = ({ children }) => (
+	<div className="flex gap-5 flex-nowrap overflow-hidden">{children}</div>
+);
 
-const Resource = styled.div`
-	display: flex;
-	column-gap: 0.25rem;
-`;
+const Resource: React.FC<PropsWithChildren> = ({ children }) => (
+	<div className="flex gap-1">{children}</div>
+);
 
-const Label = styled.span``;
+const Label: React.FC<PropsWithChildren> = ({ children }) => (
+	<span>{children}</span>
+);
 
-export default function ResourceBar() {
-	const { food, water, medicine, materials, scrap, fuel } = useAppSelector(
-		(state) => state.haven.resources
-	);
+const Food: React.FC<PropsWithChildren> = () => {
+	const food = useStore($food);
 
 	return (
-		<Bar>
-			<Resource>
+		<Resource>
+			<div className="flex gap-1">
 				<Label>Food</Label> <b>{food}</b>
-			</Resource>
-			<Resource>
+			</div>
+		</Resource>
+	);
+};
+
+const Water: React.FC<PropsWithChildren> = () => {
+	const water = useStore($water);
+
+	return (
+		<Resource>
+			<div className="flex gap-1">
 				<Label>Water</Label> <b>{water}</b>
-			</Resource>
-			<Resource>
+			</div>
+		</Resource>
+	);
+};
+
+const Medicine: React.FC<PropsWithChildren> = () => {
+	const medicine = useStore($medicine);
+
+	return (
+		<Resource>
+			<div className="flex gap-1">
 				<Label>Medicine</Label> <b>{medicine}</b>
-			</Resource>
-			<Resource>
+			</div>
+		</Resource>
+	);
+};
+
+const Materials: React.FC<PropsWithChildren> = () => {
+	const materials = useStore($materials);
+
+	return (
+		<Resource>
+			<div className="flex gap-1">
 				<Label>Materials</Label> <b>{materials}</b>
-			</Resource>
-			<Resource>
+			</div>
+		</Resource>
+	);
+};
+
+const Scrap: React.FC<PropsWithChildren> = () => {
+	const scrap = useStore($scrap);
+
+	return (
+		<Resource>
+			<div className="flex gap-1">
 				<Label>Scrap</Label> <b>{scrap}</b>
-			</Resource>
-			<Resource>
+			</div>
+		</Resource>
+	);
+};
+
+const Fuel: React.FC<PropsWithChildren> = () => {
+	const fuel = useStore($fuel);
+
+	return (
+		<Resource>
+			<div className="flex gap-1">
 				<Label>Fuel</Label> <b>{fuel}</b>
-			</Resource>
+			</div>
+		</Resource>
+	);
+};
+
+const ResourceBar = () => {
+	return (
+		<Bar>
+			<Food />
+			<Water />
+			<Medicine />
+			<Materials />
+			<Scrap />
+			<Fuel />
 		</Bar>
 	);
-}
+};
+
+export default ResourceBar;

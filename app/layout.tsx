@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import type { PropsWithChildren } from "react";
+import { cn } from "./lib/utils";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -8,17 +10,10 @@ export const metadata: Metadata = {
 	description: "How will you survive the apocalypse?",
 };
 
-export default function RootLayout({
-	children,
-}: Readonly<{
-	children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<PropsWithChildren>) {
 	return (
 		<html lang="en">
-			<body
-				style={{ margin: 0, minHeight: "100vh" }}
-				className={inter.className}
-			>
+			<body className={cn("min-h-screen m-0", inter.className)}>
 				{children}
 			</body>
 		</html>

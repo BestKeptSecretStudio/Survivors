@@ -1,3 +1,6 @@
+import type dayjs from "dayjs";
+import { nanoid } from "nanoid/non-secure";
+
 // * source for the `Increment` type:
 // > https://stackoverflow.com/a/76233031
 
@@ -13,14 +16,14 @@ type _IncrementIntermediate<T extends string> = T extends `${infer F}${Digit}`
 type Increment<T extends number> = number extends T
 	? number
 	: `${T}` extends `${string}${"." | "+" | "-" | "e"}${string}`
-	? number
-	: _IncrementIntermediate<`${T}`> extends `${infer N extends number}`
-	? N
-	: never;
+		? number
+		: _IncrementIntermediate<`${T}`> extends `${infer N extends number}`
+			? N
+			: never;
 
 type Enumerate<
 	N extends number,
-	Acc extends number[] = []
+	Acc extends number[] = [],
 > = Acc["length"] extends N
 	? Acc[number]
 	: Enumerate<N, [...Acc, Acc["length"]]>;
@@ -31,3 +34,7 @@ export type Range<F extends number, T extends number> = Exclude<
 >;
 
 export type Percentile = Range<0, 100>;
+
+export type NanoID = ReturnType<typeof nanoid>;
+
+export type EpochDate = ReturnType<typeof dayjs.Dayjs.prototype.unix>;

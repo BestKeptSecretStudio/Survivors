@@ -1,21 +1,21 @@
-import styled from "@emotion/styled";
-import dayjs from "dayjs";
-import { useAppSelector } from "../hooks";
+"use client";
 
-const TimeWrapper = styled.div`
-	display: flex;
-	justify-content: space-around;
-	flex-wrap: wrap;
-	column-gap: 0.75rem;
-`;
+import { $formattedDate, $formattedTime } from "@/state/TimeSlice";
+import { useStore } from "@nanostores/react";
+import type { PropsWithChildren } from "react";
+
+const TimeWrapper: React.FC<PropsWithChildren> = ({ children }) => (
+	<div className="flex justify-around flex-wrap gap-3">{children}</div>
+);
 
 export default function Time() {
-	const time = useAppSelector((state) => state.time.current);
+	const formattedTime = useStore($formattedTime);
+	const formattedDate = useStore($formattedDate);
 
 	return (
 		<TimeWrapper>
-			<time>{dayjs(time).format("hh:mm A")}</time>
-			<time>{dayjs(time).format("MMM D")}</time>
+			<time>{formattedTime}</time>
+			<time>{formattedDate}</time>
 		</TimeWrapper>
 	);
 }
