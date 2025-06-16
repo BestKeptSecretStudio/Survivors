@@ -1,0 +1,30 @@
+{
+  "name": "survivors",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@types/timestring": "^7.0.0",
+    "autoprefixer": "^10.4.21",
+    "tailwind-merge": "^3.3.1",
+    "tailwindcss": "^4.1.10"
+  },
+  "peerDependencies": {
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@nanostores/persistent": "^1.0.0",
+    "@nanostores/react": "^1.0.0",
+    "clsx": "^2.1.1",
+    "dayjs": "^1.11.13",
+    "nanoid": "^5.1.5",
+    "nanostores": "^1.0.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "timestring": "^7.0.0",
+    "wouter": "^3.7.1"
+  }
+}
