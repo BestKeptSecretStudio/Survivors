@@ -1,8 +1,7 @@
 @import "tailwindcss";
 
 :root {
-	--spacing: 0.5ch;
-
+	--spacing: 0.25lh;
 }
 
 @theme {
