@@ -4,8 +4,8 @@ import { $formattedDate, $formattedTime } from "@/state/TimeSlice";
 import { useStore } from "@nanostores/react";
 import type { PropsWithChildren } from "react";
 
-const TimeWrapper: React.FC<PropsWithChildren> = ({ children }) => (
-	<div className="flex justify-around flex-wrap gap-3">{children}</div>
+const Wrapper: React.FC<PropsWithChildren> = ({ children }) => (
+	<div className="flex justify-around flex-wrap gap-3 bg-white">{children}</div>
 );
 
 export default function Time() {
@@ -13,9 +13,9 @@ export default function Time() {
 	const formattedDate = useStore($formattedDate);
 
 	return (
-		<TimeWrapper>
-			<time>{formattedTime}</time>
-			<time>{formattedDate}</time>
-		</TimeWrapper>
+		<Wrapper>
+			<time dateTime={formattedTime}>{formattedTime}</time>
+			<time dateTime={formattedDate}>{formattedDate}</time>
+		</Wrapper>
 	);
 }
