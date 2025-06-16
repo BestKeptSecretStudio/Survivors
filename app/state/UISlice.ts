@@ -1,9 +1,7 @@
 import { atom, computed, map } from "nanostores";
 
-import CraftingScreen from "@layout/screens/Crafting";
+import CheatsScreen from "@layout/screens/Cheats";
 import HomeScreen from "@layout/screens/Home";
-import InfirmaryScreen from "@layout/screens/Infirmary";
-import ReconScreen from "@layout/screens/Recon";
 
 type Label = string;
 type Component = React.ComponentType;
@@ -12,9 +10,7 @@ export const $currentScreen = atom<Label>("home");
 
 export const $screens = map<Record<Label, Component>>({
 	home: HomeScreen,
-	recon: ReconScreen,
-	crafting: CraftingScreen,
-	infirmary: InfirmaryScreen,
+	cheats: CheatsScreen,
 });
 
 export const $currentScreenComponent = computed(
