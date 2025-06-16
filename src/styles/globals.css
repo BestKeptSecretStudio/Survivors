@@ -1,0 +1,20 @@
+@import "tailwindcss";
+@import "./fonts.css";
+
+:root {
+	--spacing: 0.25lh;
+}
+
+@theme {
+	--color-link: var(--color-blue-700);
+	--color-link-hover: var(--color-blue-500);
+}
+
+html {
+	font-family: Sentinel, sans-serif;
+	line-height: 1;
+}
+
+p {
+	@apply leading-normal;
+}
