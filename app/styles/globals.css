@@ -1,1 +1,11 @@
 @import "tailwindcss";
+
+:root {
+	--spacing: 0.5ch;
+
+}
+
+@theme {
+	--color-link: var(--color-blue-700);
+	--color-link-hover: var(--color-blue-500);
+}
