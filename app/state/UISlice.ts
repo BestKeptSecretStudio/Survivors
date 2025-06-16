@@ -8,11 +8,6 @@ import ReconScreen from "@layout/screens/Recon";
 type Label = string;
 type Component = React.ComponentType;
 
-interface ScreenPayload {
-	label: Label;
-	component: Component;
-}
-
 export const $currentScreen = atom<Label>("home");
 
 export const $screens = map<Record<Label, Component>>({
@@ -43,27 +38,4 @@ export const setCurrentScreen = (screen: string) => {
 	}
 
 	$currentScreen.set(screen);
-};
-
-export const registerScreen = ({ label, component }: ScreenPayload) => {
-	if ($screens.get()[label]) {
-		throw new Error(`[UI] Screen ${label} already registered`);
-	}
-
-	$screens.setKey(label, component);
-};
-
-export const unregisterScreen = (label: string) => {
-	const screens = $screens.get();
-	if (!(label in screens)) {
-		throw new Error(`[UI] Screen ${label} not found`);
-	}
-	
-	if ($currentScreen.get() === label) {
-		$currentScreen.set("home");
-	}
-
-	const newScreens = { ...screens };
-	delete newScreens[label];
-	$screens.set(newScreens);
 };
