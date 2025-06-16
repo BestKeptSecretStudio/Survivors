@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import type { PropsWithChildren } from "react";
 import { cn } from "./lib/utils";
 
-const inter = Inter({ subsets: ["latin"] });
+// const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
 	title: "Survivors",
@@ -13,9 +12,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<PropsWithChildren>) {
 	return (
 		<html lang="en">
-			<body className={cn("min-h-screen m-0", inter.className)}>
-				{children}
-			</body>
+			<body className={cn("min-h-screen m-0 p-4")}>{children}</body>
 		</html>
 	);
 }
