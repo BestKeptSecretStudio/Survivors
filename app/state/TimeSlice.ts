@@ -44,23 +44,8 @@ export const $formattedDate = computed($currentDayjs, (dayjs) =>
 	dayjs.format("MMM D"),
 );
 
-export const setTime = (time: string | Dayjs) => {
-	const formatted = dayjs(time).format();
-	$currentTime.set(formatted);
-};
-
 export const advanceTime = (amount: string) => {
 	const seconds = timestring(amount, undefined, timestringOptions);
 	const newTime = dayjs($currentTime.get()).add(seconds, "seconds");
 	$currentTime.set(newTime.format());
-};
-
-export const resetToStartingTime = () => {
-	$currentTime.set($startingDate.get());
-};
-
-export const setNewStartingDate = (date?: string | Dayjs) => {
-	const newDate = dayjs(date).format();
-	$startingDate.set(newDate);
-	$currentTime.set(newDate);
 };
