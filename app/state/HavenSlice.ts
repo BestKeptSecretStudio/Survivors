@@ -31,11 +31,6 @@ export const $resources = computed(
 	}),
 );
 
-// Computed store for total resource count - derived state
-export const $totalResources = computed($resources, (resources) =>
-	Object.values(resources).reduce((sum, amount) => sum + amount, 0),
-);
-
 const resourceStores: Record<Resource, typeof $food> = {
 	food: $food,
 	water: $water,
