@@ -56,12 +56,12 @@ export const setResource = (type: Resource, amount: number) => {
 
 export const addResource = (type: Resource, amount: number) => {
 	const current = resourceStores[type].get();
-	resourceStores[type].set(current + amount);
+	setResource(type, current + amount);
 };
 
 export const subtractResource = (type: Resource, amount: number) => {
 	const current = resourceStores[type].get();
-	resourceStores[type].set(Math.max(0, current - amount));
+	setResource(type, current - amount);
 };
 
 // Haven name manipulation
