@@ -10,7 +10,6 @@ const RESOURCES = [
 ] as const;
 export type Resource = (typeof RESOURCES)[number];
 
-// Individual atomic stores for each resource - more granular reactivity
 export const $food = atom(8);
 export const $water = atom(8);
 export const $medicine = atom(8);
@@ -18,10 +17,8 @@ export const $materials = atom(8);
 export const $scrap = atom(8);
 export const $fuel = atom(8);
 
-// Haven name as separate atom
 export const $havenName = atom("Haven");
 
-// Computed store that combines all resources - reactive composition
 export const $resources = computed(
 	[$food, $water, $medicine, $materials, $scrap, $fuel],
 	(food, water, medicine, materials, scrap, fuel) => ({
@@ -39,7 +36,6 @@ export const $totalResources = computed($resources, (resources) =>
 	Object.values(resources).reduce((sum, amount) => sum + amount, 0),
 );
 
-// Resource store map for easier access
 const resourceStores: Record<Resource, typeof $food> = {
 	food: $food,
 	water: $water,
@@ -49,7 +45,6 @@ const resourceStores: Record<Resource, typeof $food> = {
 	fuel: $fuel,
 };
 
-// Direct resource manipulation - more nanostores-like
 export const setResource = (type: Resource, amount: number) => {
 	resourceStores[type].set(Math.max(0, amount));
 };
@@ -64,7 +59,6 @@ export const subtractResource = (type: Resource, amount: number) => {
 	setResource(type, current - amount);
 };
 
-// Haven name manipulation
 export const setHavenName = (name: string) => {
 	if (!name.length) throw new Error("Haven name cannot be empty");
 	$havenName.set(name);
